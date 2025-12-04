@@ -24,12 +24,16 @@ def search(batteries):
         n = len(battery)
         max_by_sz = defaultdict(int)
         queue = deque([(battery[i], i) for i in range(n - 12)])
+        seen = set()
 
         while queue:
             curr, i = queue.popleft()
             sz, lft = len(curr), n - i - 1
             if sz + lft < 12 or sz > 12:
                 continue
+            if (curr, i) in seen:
+                continue
+            seen.add((curr, i))
             max_by_sz[sz] = max(int(curr), max_by_sz[sz])
             if int(curr) < max_by_sz[sz]:
                 continue
